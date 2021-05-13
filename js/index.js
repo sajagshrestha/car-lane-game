@@ -1,12 +1,15 @@
 const canvas = document.getElementById("canvas");
 const context = canvas.getContext("2d");
+const bothScores = document.querySelectorAll(".score");
+const gameOverOverlay = document.getElementById("game-over");
+const startGameOverlay = document.getElementById("start-game");
+const retryButton = document.getElementById("retry");
+const startButton = document.getElementById("start");
 
 canvas.height = innerHeight;
 canvas.width = 600;
 
 const lanes = [canvas.width - 580, canvas.width - 390, canvas.width - 200];
-let currentLane = 1;
-let carSpeed = 10;
 
 const obstacleSources = [
 	"assets/obs1.png",
@@ -15,7 +18,12 @@ const obstacleSources = [
 	"assets/obs4.png",
 ];
 const obstacleYPositions = [-300, -500, -700];
-let obstacles = [];
+
+let highScore = 0;
+let score;
+let obstacles;
+let currentLane;
+let carSpeed;
 
 //create player
 const player = new PlayerCar(
@@ -35,27 +43,26 @@ const gameBackground = new Background(
 	"assets/bg.png"
 );
 
+//main game loop
+let gameLoopId;
 const gameLoop = () => {
+	gameLoopId = requestAnimationFrame(gameLoop);
 	gameBackground.update();
 	player.update();
 	obstacles.forEach((obstacle) => {
 		obstacle.update();
-		checkCollision(player, obstacle);
+		if (collisionDetectedBetween(player, obstacle)) {
+			gameOver();
+		} else if (player.y < obstacle.y - obstacle.height) {
+			score++;
+			updateScore(score);
+		}
 	});
 	obstacles = obstacles.filter((obstacle) => obstacle.y < canvas.height);
-	requestAnimationFrame(gameLoop);
 };
 
-window.addEventListener("keydown", (e) => {
-	if (e.keyCode === 65 || e.keyCode === 37) {
-		currentLane--;
-		if (currentLane < 0) currentLane = 0;
-	}
-	if (e.keyCode === 68 || e.keyCode === 39) {
-		currentLane++;
-		if (currentLane > 2) currentLane = 2;
-	}
+retryButton.addEventListener("click", initGame);
+startButton.addEventListener("click", () => {
+	startGameOverlay.style.display = "none";
+	initGame();
 });
-
-gameLoop();
-generateObstacles();
