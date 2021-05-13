@@ -42,7 +42,7 @@ canvas {
 	width: 500px;
 	background-color: #29292a;
 	display: flex;
-	border-radius: 20px;
+	border-radius: 5px;
 	flex-direction: column;
 	gap: 1rem;
 	align-items: center;
