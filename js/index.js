@@ -23,6 +23,7 @@ const obstacleYPositions = [-300, -500, -700];
 let highScore = localStorage.getItem("highScore") || 0;
 highScoreContainer.innerHTML = highScore;
 
+let bullets;
 let score;
 let obstacles;
 let currentLane;
@@ -56,9 +57,13 @@ const gameLoop = () => {
 		obstacle.update();
 		if (collisionDetectedBetween(player, obstacle)) {
 			gameOver();
-		} else if (player.y < obstacle.y - obstacle.height) {
+		}
+		if (player.y < obstacle.y - obstacle.height) {
 			score++;
 			updateScore(score);
+		}
+		if (bullets[0]) {
+			bullets[0].update();
 		}
 	});
 	obstacles = obstacles.filter((obstacle) => obstacle.y < canvas.height);
