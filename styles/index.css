@@ -39,21 +39,24 @@ canvas {
 .game-overlay {
 	position: absolute;
 	z-index: 99;
-	height: 500px;
 	width: 500px;
 	background-color: #29292a;
 	display: flex;
-	border-radius: 20px;
+	border-radius: 5px;
 	flex-direction: column;
-	gap: 3rem;
+	gap: 1rem;
 	align-items: center;
 	justify-content: center;
 	color: white;
-	padding: 0 2rem;
+	padding: 2rem 2rem;
 }
 .game-overlay h1,
 .score {
 	font-size: 5rem;
+}
+.game-overlay h1 {
+	text-shadow: 0 0 20px rgb(5, 5, 5), 0 0 35px #3be6c6, 0 0 20px #3be6c6,
+		0 0 20px #3be6c6, 0 0 20px #3be6c6, 0 0 20px #3be6c6, 0 0 40px #3be6c6;
 }
 .game-button {
 	color: white;
@@ -64,11 +67,16 @@ canvas {
 	padding: 1rem 5rem;
 	cursor: pointer;
 	transition: all 0.2s;
+	margin-top: 2rem;
+	box-shadow: 0px 0px 20px #3be6c6, 0px 0px 20px #3be6c6 inset;
 }
 
 .game-button:hover {
+	box-shadow: 0px 0px 20px #3be6c6;
+
 	background: white;
 	color: #1b1b1b;
+	text-shadow: none;
 }
 
 .game-score,
@@ -79,4 +87,7 @@ canvas {
 .instructions {
 	font-size: 2rem;
 	text-align: center;
+}
+.instructions-title {
+	font-size: 4rem;
 }

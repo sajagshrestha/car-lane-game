@@ -8,6 +8,9 @@ window.addEventListener("keydown", (e) => {
 		currentLane++;
 		if (currentLane > 2) currentLane = 2;
 	}
+	if (e.keyCode === 32) {
+		bullets[0].fire();
+	}
 });
 
 let obstacleId;
@@ -27,8 +30,17 @@ const generateObstacles = () => {
 	}, 1000);
 };
 
+let bulletid;
+const generateBullet = () => {
+	bulletid = setInterval(() => {
+		if (bullets.length === 0) {
+			bullets.push(new Bullet());
+			console.log(bullets);
+		}
+	}, 3000);
+};
 const collisionDetectedBetween = (player, obstacle) => {
-	let collisonWidth = player.width - 30;
+	let collisonWidth = player.height - 30;
 	if (
 		player.x < obstacle.x + collisonWidth &&
 		player.x + collisonWidth > obstacle.x &&
@@ -55,7 +67,7 @@ const updateScore = (score) => {
 const gameOver = () => {
 	cancelAnimationFrame(gameLoopId);
 	clearInterval(obstacleId);
-
+	clearInterval(bulletid);
 	highScoreContainer.innerHTML = highScore;
 	gameOverOverlay.style.display = "flex";
 };
@@ -67,9 +79,11 @@ const initGame = () => {
 	});
 	highScoreContainer.innerHTML = highScore;
 	obstacles = [];
+	bullets = [];
 	currentLane = 1;
 	carSpeed = 10;
 	gameLoop();
 	generateObstacles();
+	generateBullet();
 	gameOverOverlay.style.display = "none";
 };
