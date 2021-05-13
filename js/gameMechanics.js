@@ -23,6 +23,7 @@ const generateObstacles = () => {
 				generateRandomIntegerBetween(0, obstacleSources.length)
 			];
 		obstacles.push(new ObstacleCar(x, y, 200, 200, imgSrc));
+		console.log("spawn");
 	}, 1000);
 };
 
@@ -44,9 +45,10 @@ const updateScore = (score) => {
 	});
 	if (score >= highScore) {
 		highScore = score;
+		localStorage.setItem("highScore", highScore);
 	}
-	if (score % 3 === 0) {
-		carSpeed += 1;
+	if (score % 5 === 0) {
+		carSpeed += 5;
 	}
 };
 
@@ -54,7 +56,7 @@ const gameOver = () => {
 	cancelAnimationFrame(gameLoopId);
 	clearInterval(obstacleId);
 
-	document.getElementById("high-score").innerHTML = highScore;
+	highScoreContainer.innerHTML = highScore;
 	gameOverOverlay.style.display = "flex";
 };
 
@@ -63,6 +65,7 @@ const initGame = () => {
 	bothScores.forEach((s) => {
 		s.innerHTML = score;
 	});
+	highScoreContainer.innerHTML = highScore;
 	obstacles = [];
 	currentLane = 1;
 	carSpeed = 10;

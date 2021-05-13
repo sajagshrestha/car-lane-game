@@ -1,6 +1,7 @@
 const canvas = document.getElementById("canvas");
 const context = canvas.getContext("2d");
 const bothScores = document.querySelectorAll(".score");
+const highScoreContainer = document.getElementById("high-score");
 const gameOverOverlay = document.getElementById("game-over");
 const startGameOverlay = document.getElementById("start-game");
 const retryButton = document.getElementById("retry");
@@ -19,7 +20,9 @@ const obstacleSources = [
 ];
 const obstacleYPositions = [-300, -500, -700];
 
-let highScore = 0;
+let highScore = localStorage.getItem("highScore") || 0;
+highScoreContainer.innerHTML = highScore;
+
 let score;
 let obstacles;
 let currentLane;
